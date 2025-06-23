@@ -1,0 +1,27 @@
+[
+    {
+        "mic_id": "01",
+        "type": 1,
+        "camera_id": 1
+    },
+    {
+        "mic_id": "02",
+        "type": 2,
+        "camera_id": 2
+    },
+    {
+        "mic_id": "13",
+        "type": 2,
+        "camera_id": 1
+    },
+    {
+        "mic_id": "17",
+        "type": 2,
+        "camera_id": 2
+    },
+    {
+        "mic_id": "1A",
+        "type": 1,
+        "camera_id": 2
+    }
+]
