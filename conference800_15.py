@@ -1266,7 +1266,7 @@ class entryConferencePage:
             self.common.serial_port = self.common.on_ok(self.config.get("com_port", "COM1"))
             time.sleep(0.1)
             # 連線成功後更新按鈕
-            self.connection.config(text="Serial Port已連線", fg="green")
+            self.connection.config(text="Serial Port已連線", fg="green", width=15)
             ## ***
             #self.common.camera_serial_port = self.common.connect_visca_serial(self.camera_config.get("com_port", "COM1"))
             mic_id = 63
@@ -1377,6 +1377,7 @@ class entryConferencePage:
                                 # Clear other Device
                                 print(f'***********quere: {self.mic_id_queue}')
                                 sorted_queue = sorted(self.mic_id_queue, key=lambda x: int(x, 16), reverse=True)
+                                print(f'!!!!!***** sorted_queue = {sorted_queue}')
                                 for item in sorted_queue:
                                     if item != mic_id:
                                         print(f'+++++++++++quere item: {item} type={type(item)} len={len(item)}  mic_id={mic_id}  type={type(mic_id)} len={len(mic_id)}')
@@ -1390,7 +1391,21 @@ class entryConferencePage:
                                         time.sleep(0.05)
                                     #else:
                                     #    self.controlCamera(mic_id)    
-                                time.sleep(0.05)
+                                #主席的攝影機
+                                #self.process_queue(mic_id, 1)
+                                #self.controlCamera(mic_id)
+                                """
+                                time.sleep(0.2)
+                                # 如果沒有收到38 38 碼
+                                label_master = self.mic_timer_labels.get(mic_id)
+                                #if label:
+                                if label_master:
+                                    label_master.config(text="麥克風關閉", fg="red") 
+                                # Clear master
+                                self.process_queue(mic_id, 0)
+                                self.controlCamera(mic_id)
+                                """
+                                #time.sleep(0.05)
                             #elif "38 38" in hex_msg: # 優先放開
                             elif len(parts) >= 4 and parts[2] == '38' and parts[3] == '38':
                                 print(f'!!!{mic_id} master close, hex_msg: {hex_msg}')
@@ -1399,9 +1414,9 @@ class entryConferencePage:
                                 label.config(text="麥克風關閉", fg="red")        
 
                                 # Clear master
-                                self.process_queue(mic_id, 0)
-                                self.controlCamera(mic_id)
-                                print(f'38 38 mic_id: {mic_id}')
+                                #self.process_queue(mic_id, 0)
+                                #self.controlCamera(mic_id)
+                                #print(f'38 38 mic_id: {mic_id}')
                                 #self.timer_flags[mic_id] = False  # 停止倒數
                                 #self.send_mic_command(mic_id, 0)
                             #elif "AA AA" in hex_msg: # 開啟
@@ -1422,9 +1437,9 @@ class entryConferencePage:
                                 self.send_mic_command(mic_id, 0)
                                 self.timer_flags[mic_id] = False  # 停止該 mic 的倒數
                                 # Label
-                                #label = self.mic_timer_labels.get(mic_id)
-                                #if label:
-                                #    label.config(text="麥克風關閉", fg="red")
+                                label = self.mic_timer_labels.get(mic_id)
+                                if label:
+                                    label.config(text="麥克風關閉", fg="red")
 
                 except Exception as e:
                     print(f"監聽錯誤：{e}")
@@ -2031,7 +2046,7 @@ class FIFOConferencePage:
             self.common.serial_port = self.common.on_ok(self.config.get("com_port", "COM1"))
             time.sleep(0.1)
             # 連線成功後更新按鈕
-            self.connection.config(text="Serial Port已連線", fg="green")
+            self.connection.config(text="Serial Port已連線", fg="green", width=15)
             ## ***
             #self.common.camera_serial_port = self.common.connect_visca_serial(self.camera_config.get("com_port", "COM1"))
             #print(f'camera port: {self.common.camera_serial_port}' )
